@@ -1,4 +1,4 @@
-﻿package com.unisul.eventos.security;
+package com.unisul.eventos.security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-﻿package com.unisul.eventos.model;
+package com.unisul.eventos.model;
 
 import com.unisul.eventos.security.PasswordUtil;
 import com.unisul.eventos.util.Util;
@@ -19,8 +19,6 @@ public class Usuario {
 
     private String senhaHash;
     private String senhaSalt;
-
-    // ────────────────────────── CONSTRUTORES ──────────────────────────
 
     /** Construtor padrão (útil para frameworks/serialização) */
     public Usuario() {
@@ -49,8 +47,6 @@ public class Usuario {
         this.senhaSalt = senhaSalt;
     }
 
-    // ─────────────────────────── SENHA ───────────────────────────
-
     /** Define/atualiza a senha do usuário (gera SALT e guarda apenas o HASH). */
     public void definirSenha(String senhaEmClaro) {
         String salt = PasswordUtil.gerarSalt();
@@ -65,8 +61,6 @@ public class Usuario {
         String hashTentativa = PasswordUtil.hashSenha(senhaEmClaro, this.senhaSalt);
         return Objects.equals(this.senhaHash, hashTentativa);
     }
-
-    // ────────────────────────── GETTERS/SETTERS ──────────────────────────
 
     public UUID getId() { return id; }
 
@@ -85,8 +79,6 @@ public class Usuario {
     // Apenas package-private para persistência.
     String getSenhaHash() { return senhaHash; }
     String getSenhaSalt() { return senhaSalt; }
-
-    // ──────────────────────── CSV (persistência simples) ────────────────────────
 
     /** Serializa o usuário em uma linha CSV */
     public String toCsv() {
@@ -116,8 +108,6 @@ public class Usuario {
                 Util.vazioParaNull(p[6])
         );
     }
-
-    // ───────────────────────── toString/equals/hashCode ─────────────────────────
 
     @Override
     public String toString() {

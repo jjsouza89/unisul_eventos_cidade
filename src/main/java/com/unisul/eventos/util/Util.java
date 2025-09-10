@@ -1,4 +1,4 @@
-﻿package com.unisul.eventos.util;
+package com.unisul.eventos.util;
 
 public class Util {
 
