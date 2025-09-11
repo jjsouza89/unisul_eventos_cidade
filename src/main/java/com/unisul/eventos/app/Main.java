@@ -48,7 +48,8 @@ public class Main {
             System.out.println("4) Listar usuários");
             System.out.println("5) Confirmar participação em evento");
             System.out.println("6) Cancelar participação");
-            System.out.println("7) Listar meus eventos confirmados");
+            System.out.println("7) Listar eventos do usuario");
+            System.out.println("8) Listar participantes do evento");
 
             System.out.println("9) Sair");
             System.out.print("Opção: ");
@@ -75,6 +76,9 @@ public class Main {
                     break;
                 case "7":
                     listarParticipacoes(sc);
+                    break;
+                case "8":
+                    listarUsuariosEvento(sc);
                     break;
                 case "9":
                     return;
@@ -136,7 +140,7 @@ public class Main {
             else if (e.isPast()) status = "PASSADO";
             else status = "FUTURO";
 
-            System.out.printf("- %s [%s]\n", status, e.toString());
+            System.out.printf("%s [%s]\n", status, e.toString());
         }
     }
 
@@ -154,6 +158,53 @@ public class Main {
                 u.getTelefone(),
                 u.getDataCadastro());
             }
+    }
+
+    private static void listarUsuariosEvento(Scanner sc) {
+        System.out.println("\n>>> Consultar usuários do evento");
+        String nomeEvento = readLine(sc, "Digite o nome do evento: ");
+
+        Evento evento = eventos.stream()
+                .filter(e -> e.getNome().equalsIgnoreCase(nomeEvento))
+                .findFirst()
+                .orElse(null);
+
+        if (evento == null) {
+            System.out.println("Evento não encontrado.");
+            return;
+        }
+
+        System.out.println("Lista de usuários do evento: " + evento.getNome());
+
+        // Filtrar participações do evento
+        List<Participacao> lista = new ArrayList<>();
+        for (Participacao p : participacoes) {
+            if (p.getEventoId().equals(evento.getId())) {
+                lista.add(p);
+            }
+        }
+
+        if (lista.isEmpty()) {
+            System.out.println("(nenhuma participação encontrada)");
+            return;
+        }
+
+        // Mostrar dados do usuário + id da participação
+        for (Participacao p : lista) {
+            Usuario participante = usuarios.stream()
+                    .filter(u -> u.getId().equals(p.getUsuarioId()))
+                    .findFirst()
+                    .orElse(null);
+
+            String usuarioInfo = (participante != null)
+                    ? participante.getNome() + " (" + participante.getEmail() + ")"
+                    : "Usuário não encontrado";
+
+            System.out.printf("- Participação %s | %s | Confirmado em: %s%n",
+                    p.getId(),
+                    usuarioInfo,
+                    p.getDataConfirmacao().format(DTF));
+        }
     }
 
     private static void listarParticipacoes(Scanner sc) {
