@@ -120,7 +120,7 @@ public class Evento {
 
     @Override
     public String toString() {
-        return nome + " [" + categoria + "] em " + endereco +
+        return "id " + id + " "+ nome + " [" + categoria + "] em " + endereco +
                 " às " + horario +
                 " (" + duracaoMinutos + " min) - " +
                 descricao;
